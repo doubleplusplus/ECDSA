@@ -103,3 +103,36 @@ def message():
 
 #ecdsa()
 message()
+
+
+def leakage():
+    # first message
+    r1 = 0x0069c695c87973520fa07eb5eef4846d4e2405dbd175550ef858577555b73dc8a60fc221322c37b6ffe49db901121063e36b43aa9936703425c78ccf3fafa27bc566
+    s1 = 0x010e54d7d2e48ea6f907cb51e6d7de460ee26ec35d19c36e7107ccb1f72160f0660a6dae3fb31b3c0c02638431c697ea488ff97af387a4384a67071696207167d440
+    # second message
+    r2 = 0x0069c695c87973520fa07eb5eef4846d4e2405dbd175550ef858577555b73dc8a60fc221322c37b6ffe49db901121063e36b43aa9936703425c78ccf3fafa27bc566
+    s2 = 0x008ff6d18d59dbc4911cdaaae47ff7b4151cbe103c46b3b6f880d5b1aeedd4aa59dc036db5ff2956cb9f65b3cc1a2390f9d01977c73bde9676c440b53163902dd332
+    #print(r1 == r2)
+    ms1 = 'Message1'
+    ms2 = 'Message2'
+    bs1 = bytes(ms1, 'utf-8')
+    h1 = hashlib.sha3_512(bs1).hexdigest()
+    hm1 = int(h1, 16)
+
+    bs2 = bytes(ms2, 'utf-8')
+    h2 = hashlib.sha3_512(bs2).hexdigest()
+    hm2 = int(h2, 16)
+
+    k_E = ((hm1 - hm2) * mod_inv(s1 - s2, q)) % q
+    print('k_E =', hex(k_E))
+    d = ((s1 * k_E - hm1) * mod_inv(r1, q)) % q
+    print('d =', hex(d))
+
+    print("verify key")
+    R = double_and_add(a, p, A[0], A[1], k_E)
+    r = R[0]
+    s = ((hm2 + d * r) * mod_inv(k_E, q)) % q
+    print(r == r1, s == s2)
+
+
+#leakage()
