@@ -92,12 +92,14 @@ def message():
     r1 = 0x0127c8f66638a0c61c37944b615f596cd2ebee1aae6a493795ba2e27246d75b02e65e6a2e9f395eb17057989a85393ac5be170ce94594493ca8b5e941a3f28d1c6b3
     s1 = 0x00a7bc3e4e817bbd276f62bc8e354df9049b289899ecd22a405ec3e2cdd63006052bc227dbb03e8a4d59b6b86ba420a60f79be4af9476e2854d0f8dc3a6d2eae674e
 
-    ms = 'cs'
+    k_ep = 0x7518f204fe6846aeb6f58174d57a3372363c0d9fcfaa3dc18b1eff7e89bf7678636580d17dd84a873b14b9c0e1680bbdc87647f3c382902d2f58d2754b39bca876
+
+    ms = 'Y!'
     print(ms)
-    bytestring1 = bytes(ms, 'utf-8')
+    bytestring1 = bytes(ms, 'ascii')
     h1 = hashlib.sha3_512(bytestring1).hexdigest()
     hx1 = int(h1, 16)
-    s_new = ((hx1 + d * r1) * mod_inv(k_E, q)) % q
+    s_new = ((hx1 + d * r1) * mod_inv(k_ep, q)) % q
     print('s_new =', s_new == s1)
 
 
