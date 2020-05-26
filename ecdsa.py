@@ -103,7 +103,7 @@ def message():
     print('s_new =', s_new == s1)
 
 
-#ecdsa()
+ecdsa()
 message()
 
 
@@ -137,4 +137,4 @@ def leakage():
     print(r == r1, s == s2)
 
 
-#leakage()
+leakage()
