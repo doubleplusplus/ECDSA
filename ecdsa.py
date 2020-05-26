@@ -77,6 +77,7 @@ def ecdsa():
     R = double_and_add(a, p, A[0], A[1], k_E)
     r = R[0]
     s = ((hx + d * r) * mod_inv(k_E, q)) % q
+    print('r =', hex(r))
     print('s =', hex(s))
 
     "Signature verification"
